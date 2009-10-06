@@ -1,0 +1,20 @@
+set :dir, 		'/home/42703/domains/glimmer.redflex.co.uk/html'
+set :branch,	'origin/website'
+
+
+
+role :server, 	"glimmer.redflex.co.uk"
+
+
+
+namespace :deploy do
+	desc "Updates the deployed code on the server."
+	task :default, :roles => :server, :except => { :no_release => true } do
+	
+		run [ 	"cd #{dir}",
+				"git fetch origin",
+				"git reset --hard #{branch}"
+			].join("; ")
+	
+	end
+end
