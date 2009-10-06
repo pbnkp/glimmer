@@ -63,7 +63,7 @@ EOF;
 			$authorURI = $data['AuthorURI'];
 			$pluginURI = $data['PluginURI'];
 			
-			$status = self::checkStatus($packageDir);
+			$status = self::checkStatus($package);
 			$statusClass = 'green';
 			if ($status['status'] == 'warning') {
 				$statusClass = 'orange';
@@ -95,11 +95,11 @@ EOF;
 			}
 			
 			echo <<<EOF
-								<span class="1"><a href="#">Check for updates</a></span>
+								<span class="1"><a href="/wp-content/plugins/glimmer/check-for-update.php?pugin=$package&width=440&height=360" class="thickbox onclick" title="Checking for updates: $name">Check for updates</a></span>
 							</div>
 						</td>
 						<td class="desc">
-							<a href="/wp-content/plugins/glimmer/plugin-info.php?plugin=$packageDir&TB_iframe=true&width=640&height:560" class="thickbox onclick" title="$name">Plugin Info</a>
+							<a href="/wp-content/plugins/glimmer/plugin-info.php?plugin=$package&TB_iframe=true&width=640&height=560" class="thickbox onclick" title="$name">Plugin Info</a>
 						</td>
 					</tr>
 EOF;

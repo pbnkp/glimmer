@@ -113,7 +113,7 @@ class Glimmer
 		$plugins = self::getPlugins();
 		foreach ($plugins as $file => $data) {
 			$dir = explode('/', $file);
-			$specfile = ABSPATH.'wp-content/plugins/'.$dir[0].'/'.$dir[0].'.spec';
+			$specfile = ABSPATH.'wp-content/plugins/'.$dir[0].'/'.str_replace(' ','-',strtolower($data['Name'])).'.glimmer';
 			
 			if (file_exists($specfile)){
 				$spec = array_merge($data, self::parseSpecfile($specfile));
@@ -161,7 +161,7 @@ class Glimmer
 		
 		foreach ($plugins as $key => $value) {
 			$dir = explode('/', $key);
-			$specfile = $pluginDir.$dir[0].'/'.$dir[0].'.spec';
+			$specfile = $pluginDir.$dir[0].'/'.str_replace(' ','-',strtolower($value['Name'])).'.glimmer';
 			
 			if (file_exists($specfile)){
 				$spec = array_merge($value, self::parseSpecfile($specfile));
@@ -170,7 +170,7 @@ class Glimmer
 		}
 		
 		// see if the plugin that we are checking has any dependencies
-		$specfile = self::parseSpecfile($pluginDir.$lookupPlugin.'/'.$lookupPlugin.'.spec');
+		$specfile = self::parseSpecfile($pluginDir.str_replace('.php', '.glimmer', $lookupPlugin));
 		if (!array_key_exists('Dependencies', $specfile)) { return array('status' => 'ok'); }
 		
 		// trawl through each plugin to build the dictionary

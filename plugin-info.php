@@ -5,10 +5,10 @@ require_once('libs/glimmer.pages.lib.php');
 
 // find the plugin directory
 $pluginDir = dirname(__FILE__);
-$pluginDir = dirname($pluginDir.'../') . '/' . $_GET['plugin'];
+$pluginDir = dirname($pluginDir.'../');
 
 // and parse the specfile
-$spec = Glimmer::parseSpecfile($pluginDir . '/' . $_GET['plugin'] . '.spec');
+$spec = Glimmer::parseSpecfile($pluginDir . '/' . str_replace('.php', '.glimmer', $_GET['plugin']));
 
 // check dependencies
 $status = Glimmer::checkStatus($_GET['plugin']);
