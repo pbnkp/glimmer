@@ -1,0 +1,41 @@
+/* Contents ------------------------------------------------------------------
+	
+	1= Links
+	2= Images
+	3= Paragraphs
+	4= Headers
+	5= Blockquotes
+	6= Lists
+	7= Code blocks
+	
+----------------------------------------------------------------------------*/
+html {
+	height: 100%;
+}
+
+body {
+	background: #040404 url(/img/bg.png) repeat-x scroll 0 0;
+	color: #eee;
+	font: 12px "Lucida Grande","Helvetica Neue",Helvetica,Arial,sans-serif;
+	line-height: 1.5em;
+	min-height: 100%;
+}
+
+
+
+/* 1= Links ----------------------------------------------------------------*/
+a:link, a:visited {
+	color: #00c0ff;
+	text-decoration: none;
+}
+
+a:hover {
+	text-decoration: underline;
+}
+
+
+
+/* 2= Images ---------------------------------------------------------------*/
+img {
+	border: 0;
+}
