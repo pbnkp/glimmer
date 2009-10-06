@@ -41,7 +41,7 @@ class Glimmer
 		
 		add_menu_page('Glimmer', 'Glimmer'.$glimmerCount, 8, 'glimmer', 'GlimmerPages::main');
 		add_submenu_page('glimmer', 'Glimmer', 'Manage Plugins', 8, 'glimmer', 'GlimmerPages::main');
-		add_submenu_page('glimmer', 'Settings &lsaquo; Glimmer', 'Settings', 8, 'glimmer/settings', 'GlimmerPages::settings');
+		//add_submenu_page('glimmer', 'Settings &lsaquo; Glimmer', 'Settings', 8, 'glimmer/settings', 'GlimmerPages::settings');
 	}
 	
 	
