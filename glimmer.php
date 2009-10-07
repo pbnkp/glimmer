@@ -2,8 +2,8 @@
 /*
 Plugin Name: Glimmer
 Plugin URI: http://glimmer.redflex.co.uk/
-Description: The missing Wordpress plugin manager.
-Version: 0.0.1
+Description: The next-generation plugin manager for WordPress.
+Version: 0.0.0
 Author: Matt Kirman
 Author URI: http://mattkirman.com/
 */
