@@ -1,7 +1,7 @@
 /* Contents -------------------------------------------------------------------
 	
 	1= Header
-	2= 
+	2= Subheader
 	3= Footer
 	
 -----------------------------------------------------------------------------*/
@@ -19,7 +19,7 @@
 
 /* 1= Header ----------------------------------------------------------------*/
 #logo {
-	background: transparent url(/img/logo.png) no-repeat;
+	background: transparent url(/img/logo.png) no-repeat -7px 0;
 	display: block;
 	float: left;
 	height: 75px;
@@ -37,11 +37,12 @@
 #nav {
 	float: right;
 	list-style-type: none;
-	margin: 0;
+	margin: 20px 0 0;
 	padding: 0;
 }
 	
 	#nav li {
+		color: #414141;
 		float: left;
 	}
 		
@@ -51,12 +52,43 @@
 
 
 
+/* 2= Subheader -------------------------------------------------------------*/
+#subheader {
+	border-bottom: 1px solid #212121;
+	padding-bottom: 40px;
+	margin-bottom: 20px;
+}
+
+	#intro {
+		border-right: 1px solid #212121;
+		float: left;
+		left: 0;
+		padding-right: 40px;
+		width: 505px;
+	}
+	
+		#intro p {
+			font-size: 14px;
+			color: #ddd;
+			line-height: 1.5em;
+			margin-bottom: 0;
+			text-shadow: 1px 1px 1px #000;
+		}
+
+
+
 /* 3= Footer ----------------------------------------------------------------*/
 #footer {
+	border-top: 1px solid #212121;
 	font-size: 10px;
+	margin-top: 20px;
 	padding: 40px 0;
 	text-align: center;
 }
+	
+	#footer p {
+		margin-bottom: 0;
+	}
 
 	#footer .sponsor {
 		line-height: 39px;

@@ -44,7 +44,7 @@ img {
 
 /* 3= Paragraphs ------------------------------------------------------------*/
 p {
-	
+	margin-bottom: 1.5em;
 }
 
 
@@ -55,7 +55,9 @@ h1 {
 }
 
 h2 {
-	
+	font-size: 20px;
+	margin-bottom: 10px;
+	text-shadow: 1px 1px 1px #000;
 }
 
 h3 {
