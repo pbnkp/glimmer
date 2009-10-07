@@ -1,42 +1,69 @@
-/* Contents ------------------------------------------------------------------
+/* Contents -------------------------------------------------------------------
 	
 	1= Header
-	2=
+	2= 
 	3= Footer
 	
-----------------------------------------------------------------------------*/
+-----------------------------------------------------------------------------*/
 .container {
 	margin: 0 auto;
 	padding: 20px 0;
 	width: 800px;
 }
 
-.floatLeft {
-	float: left;
-}
-
-.floatRight {
-	float: right;
-}
-
-.clearFix {
+.clearfix {
 	clear: both;
 }
 
 
 
-/* 1= Header ---------------------------------------------------------------*/
-#header {
-	
+/* 1= Header ----------------------------------------------------------------*/
+#logo {
+	background: transparent url(/img/logo.png) no-repeat;
+	display: block;
+	float: left;
+	height: 75px;
+	overflow: hidden;
+	text-indent: -9999px;
+	width: 205px;
 }
 
+	#logo a {
+		display: block;
+		height: 75px;
+		width: 205px;
+	}
+
+#nav {
+	float: right;
+	list-style-type: none;
+	margin: 0;
+	padding: 0;
+}
+	
+	#nav li {
+		float: left;
+	}
+		
+		#nav li a {
+			padding: 5px;
+		}
 
 
-/* 2= */
 
-
-
-/* 3= Footer ---------------------------------------------------------------*/
+/* 3= Footer ----------------------------------------------------------------*/
 #footer {
 	font-size: 10px;
+	padding: 40px 0;
+	text-align: center;
 }
+
+	#footer .sponsor {
+		line-height: 39px;
+		margin-top: 10px;
+	}
+
+		#footer .sponsor img {
+			vertical-align: middle;
+		}
+	
