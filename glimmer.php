@@ -13,4 +13,7 @@ require_once('libs/glimmer.pages.lib.php');
 
 Glimmer::bootstrap();
 
+register_activation_hook(__FILE__, 'Glimmer::activationHook');
+register_deactivation_hook(__FILE__, 'Glimmer::deactivationHook');
+
 ?>

@@ -46,6 +46,39 @@ class Glimmer
         // add admin menus, dashboard widget
         add_action('admin_menu', 'Glimmer::adminMenu');
         add_action('wp_dashboard_setup', 'Glimmer::dashboard');
+        
+        // add cron jobs
+        add_action('glimmer__check_for_updates', 'Glimmer::checkForUpdates');
+    }
+    
+    
+    
+    /**
+     * Put all code that you want to execute on activation here
+     *
+     * @access  public
+     * @static
+     * @return  void
+     **/
+    public static function activationHook()
+    {
+        // check plugins for updates every hour
+        wp_schedule_event(time(), 'hourly', 'glimmer__check_for_updates');
+    }
+    
+    
+    
+    /**
+     * Put all code that you want to execute on deactivation here
+     *
+     * @access  public
+     * @static
+     * @return  void
+     **/
+    public static function deactivationHook()
+    {
+        // disable hourly update checking
+        wp_clear_scheduled_hook('glimmer__check_for_updates');
     }
     
     
@@ -96,15 +129,19 @@ class Glimmer
     public static function loadPlugins()
     {
         // get all the WP plugins, this includes plugins that are disabled
-        $plugins = self::getPlugins();
+        self::$plugins = self::getPlugins();
+        
+        $plugin_root = dirname(__FILE__);
+        $plugin_root = dirname($plugin_root.'../');
+        $plugin_root = dirname($plugin_root.'../');
         
         // for every plugin try and find a .glimmer specfile
-        foreach ($plugins as $file => $data) {
+        foreach (self::$plugins as $file => $data) {
             $dir = explode('/', $file);
-            $specfile = ABSPATH.'wp-content/plugins/'.$dir[0].'/'.str_replace(' ','-',strtolower($data['Name'])).'.glimmer'; # this implementation is a bit flaky
+            $specfile = $plugin_root.'/'.$dir[0].'/'.str_replace(' ','-',strtolower($data['Name'])).'.glimmer'; # this implementation is a bit flaky
             
             if (file_exists($specfile)){
-                $spec = array_merge($data, self::parseSpecfile($specfile));
+                $spec = array_merge($data, self::parseSpecfile($specfile), array('_Glimmer' => true));
                 self::$plugins[$file] = $spec;
             }
         }
@@ -130,6 +167,74 @@ class Glimmer
         
         
         return $spec;
+    }
+    
+    
+    
+    /**
+     * Reads the plugin appcast for use when updating / installing the plugin
+     *
+     * @access  public
+     * @static
+     * @param   string $url     the appcast url to load.
+     * @return  array or false on failure
+     * 
+     * @todo    Should probably cache the results so we don't hammer the appcast server
+     **/
+    public static function readAppcast($url)
+    {
+        if (!function_exists('curl_init')) { return false; }
+        
+        // create the cURL instance
+        $ch = curl_init();
+        curl_setopt($ch, CURLOPT_URL, $url);
+        curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, 2);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, TRUE);
+        $buffer = curl_exec($ch);
+        
+        // we ought to check that we got a HTTP 200
+        $httpCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+        curl_close($ch);
+        if ($httpCode != '200') {
+            return false;
+        }
+        
+        // we now need to convert appcast into an array
+        $appcast = simplexml_load_string($buffer);
+        
+        
+        return $appcast;
+    }
+    
+    
+    
+    /**
+     * Checks each plugin's appcast to see if it needs to be updated. Then stores
+     * the results in the database for us to present to the user later.
+     *
+     * @access  public
+     * @static
+     * @return  void
+     **/
+    public static function checkForUpdates()
+    {
+        // first we need to get all plugins
+        $plugins = self::loadPlugins();
+        
+        foreach ($plugins as $plugin) {
+            if ($plugin['_Glimmer'] == true && $plugin['AppcastURI'] != null) {
+                // right, this plugin is Glimmer capable so read it's Appcast
+                $appcast = self::readAppcast($plugin['AppcastURI']);
+                
+                foreach ($appcast->channel->item as $item) {
+                    /*
+                        TODO Add version checking logic
+                    */
+                }
+            }
+        }
+        
+        
     }
     
     
@@ -194,7 +299,7 @@ class Glimmer
         }
         
         if (count($warnings) > 0) {
-            return array('status' => 'warning', 'message' => 'There may be compatability issues with:<br />&bull; '.implode('<br />&bull; ', $warnings));
+            return array('status' => 'warning', 'message' => 'This may not be compatible with:<br />&nbsp;&bull; '.implode('<br />&nbsp;&bull; ', $warnings));
         }
         
         
@@ -263,7 +368,7 @@ class Glimmer
 
             $wp_plugins[$plugin_file] = $plugin_data;
         }
-
+        
         return $wp_plugins;
     }
     

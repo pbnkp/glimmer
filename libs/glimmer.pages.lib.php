@@ -37,20 +37,24 @@ class GlimmerPages extends Glimmer
     {
         Glimmer::loadPlugins();
         
-        $pluginCountAll = number_format(count(self::$plugins));
-        
         echo <<<EOF
-<script type="text/javascript" src="/wp-content/plugins/glimmer/js/main.js"></script>       
-
+<script type="text/javascript" src="/wp-content/plugins/glimmer/js/main.js"></script>
+        
+        <style>
+            .update-message { background-color: #fffbe4; border: 1px solid #dfdfdf; color: #000; font-weight: bold; padding: 3px 5px; -moz-border-radius: 5px; }
+            .plugins .second td, .plugins .second th { padding: 3px 7px 5px; }
+            .align-right { text-align: right; }
+        </style>
+        
         <div class="wrap">
             <div class="icon32" id="icon-plugins"><br /></div>
             <h2>Glimmer</h2>
             
-            <ul class="subsubsub">
-                <li><a href="#" class="current">All <span class="count">($pluginCountAll)</span></a></li>
-            </ul>
+            <p class="align-right">
+                &nbsp;<a href="/wp-content/plugins/glimmer/check-for-updates.php" class="background">Check for updates</a>
+            </p>
             
-            <table id="all-plugins-table" class="widefat" cellspacing="0">
+            <table id="all-plugins-table" class="widefat" cellspacing="0" style="margin:15px 0">
                 <thead>
                     <tr>
                         <th style="width:3px;padding:0"></th>
@@ -71,6 +75,9 @@ class GlimmerPages extends Glimmer
 EOF;
         
         foreach (self::$plugins as $package => $data) {
+            // if the plugin is not Glimmer aware, skip it
+            if ($data['_Glimmer'] != true) { continue; }
+            
             $packageDir = explode('/', $package);
             $packageDir = $packageDir[0];
             
@@ -105,19 +112,22 @@ EOF;
                     <tr class="second $class">
                         <td style="width:3px;padding:0;background:$statusClass"></td>
                         <td class="plugin-title">
-                            <div class="row-actions-visible">
+                            <div class="row-actions-visible controls">
 EOF;
             
-            if ($data['PackageName'] != 'com.redflex.glimmer') {
-                echo '<span class="0"><a href="'.$actionURL.'" class="background">'.$action.'</a> |</span>';
+            if ($data['Name'] != 'Glimmer') {
+                echo '<span class="0"><a href="'.$actionURL.'" class="background">'.$action.'</a>&nbsp;</span>';
             }
             
             echo <<<EOF
-                                <span class="1"><a href="/wp-content/plugins/glimmer/check-for-update.php?pugin=$package&width=440&height=360" class="thickbox onclick" title="Checking for updates: $name">Check for updates</a></span>
                             </div>
                         </td>
-                        <td class="desc">
-                            <a href="/wp-content/plugins/glimmer/plugin-info.php?plugin=$package&TB_iframe=true&width=640&height=560" class="thickbox onclick" title="$name">Plugin Info</a>
+                        <td class="desc controls">
+                            <a href="/wp-content/plugins/glimmer/plugin-info.php?plugin=$package&TB_iframe=true&width=670&height=460" class="thickbox onclick" title="$name">Plugin Info</a>
+                            
+                            <span class="update-message">
+                                Version *** is available. <a href="#" class="background">Update now</a>
+                            </span>
                         </td>
                     </tr>
 EOF;
