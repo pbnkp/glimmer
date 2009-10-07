@@ -152,29 +152,23 @@ class Glimmer
         $pluginDir = dirname($pluginDir.'../');
         $pluginDir = dirname($pluginDir.'../') . '/';
         
-        // Load all the plugins so we can check dependencies
+        // load all the plugins so we can check dependencies
         $plugins = self::getPlugins();
         
-        foreach ($plugins as $key => $value) {
-            $dir = explode('/', $key);
-            $specfile = $pluginDir.$dir[0].'/'.str_replace(' ','-',strtolower($value['Name'])).'.glimmer';
-            
-            if (file_exists($specfile)){
-                $spec = array_merge($value, self::parseSpecfile($specfile));
-                $plugins[$key] = $spec;
-            }
-        }
+        
+        // we need to get the name of the plugin we are looking up, not the ID
+        $lookupPlugin_name = $plugins[$lookupPlugin]['Name'];
+        
         
         // see if the plugin that we are checking has any dependencies
         $specfile = self::parseSpecfile($pluginDir.str_replace('.php', '.glimmer', $lookupPlugin));
         if (!array_key_exists('Dependencies', $specfile)) { return array('status' => 'ok'); }
         
+        
         // trawl through each plugin to build the dictionary
         $pluginDict = array();
         foreach ($plugins as $plugin) {
-            if (array_key_exists('PackageName', $plugin) && $plugin['PackageName'] != $specfile['PackageName']) {
-                $pluginDict[$plugin['PackageName']] = $plugin;
-            }
+            $pluginDict[$plugin['Name']] = $plugin;
         }
         
         
