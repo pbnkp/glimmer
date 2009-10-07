@@ -8,8 +8,6 @@
 class Glimmer
 {
 	
-	/*public static $VERSION = '0.0.0';
-	private static $PACKAGE = 'com.redflex.glimmer';*/
 	protected static $wpdb;
 	protected static $plugins = array();
 	
@@ -20,9 +18,6 @@ class Glimmer
 		// set up variables
 		global $wpdb;
 		self::$wpdb = $wpdb;
-		
-		// install Glimmer
-		Glimmer::installGlimmer();
 		
 		// add admin menus, dashboard widget
 		add_action('admin_menu', 'Glimmer::adminMenu');
@@ -49,54 +44,6 @@ class Glimmer
 	public static function dashboard()
 	{
 		wp_add_dashboard_widget('glimmer', 'Glimmer', 'GlimmerPages::dashboardWidget');
-	}
-	
-	
-	
-	private static function installGlimmer()
-	{
-	/*	$tableName = self::$wpdb->prefix.'glimmer';
-		if (get_option('glimmer_version') != self::$VERSION || self::$wpdb->get_var("SHOW TABLES LIKE '$tableName'") != $tableName) {
-			// create glimmer database
-			$sql = "CREATE TABLE $tableName (
-					id mediumint(9) NOT NULL AUTO_INCREMENT,
-					package varchar(255) NOT NULL,
-					version varchar(255) NOT NULL,
-					dependencies text,
-					enabled smallint(2) DEFAULT 1,
-					UNIQUE KEY id (id),
-					INDEX package (package),
-					INDEX version (version)
-				);";
-				
-			require_once(ABSPATH.'wp-admin/includes/upgrade.php');
-			dbDelta($sql);
-			
-			// and add the initial data
-			if (get_option('glimmer_package_added') != 'true') {
-				$insert = "INSERT INTO $tableName
-							(package, version)
-							VALUES ('".self::$PACKAGE."', '".self::$VERSION."')";
-			
-				self::$wpdb->query($insert);
-				add_option('glimmer_package_added', 'true');
-				add_option('glimmer_version', self::$VERSION);
-				
-			}
-			
-			// check to see if we need to update the package version
-			if (get_option('glimmer_version') != self::$VERSION) {
-				$update = "UPDATE $tableName SET
-							version='".self::$VERSION."' WHERE
-							package='".self::$PACKAGE."' LIMIT 1";
-				
-				self::$wpdb->query($update);
-				update_option('glimmer_version', self::$VERSION);
-				
-			}
-			
-		}*/
-		
 	}
 	
 	
