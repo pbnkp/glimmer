@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<rss version="2.0" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:glimmer="http://glimmer.redflex.co.uk/xml-namespaces/glimmer">
+	<channel>
+		<title>Glimmer</title>
+		<link>http://glimmer.redflex.co.uk/appcast/glimmer.xml</link>
+		<description>Glimmer: The Next-Generation Plugin Manager for WordPress.</description>
+		<language>en</language>
+		<item>
+
+		    <title>Glimmer 0.0.0</title>
+		    <pubDate>Thu, 8 Oct 2009 00:00:00 +0000</pubDate>
+			<description><![CDATA[
+				<h3>0.0.0</h3>
+				<ul>
+					<li><strong>Warning:</strong> This version should not be used in a production environment.</li>
+				</ul>
+			]]></description>
+		    <enclosure url=""
+		               glimmer:version="0.0.0"
+		               glimmer:signature=""
+		               length="4000000"
+		               type="application/octet-stream" />
+		</item>
+	</channel>
+</rss> 
