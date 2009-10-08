@@ -30,9 +30,19 @@ class GlimmerPages extends Glimmer
 <script type="text/javascript" src="/wp-content/plugins/glimmer/js/main.js"></script>
         
         <style>
-            .update-message { background-color: #fffbe4; border: 1px solid #dfdfdf; color: #000; font-weight: bold; padding: 3px 5px; -moz-border-radius: 5px; }
+            .update-message { background-color: #fffbe4; border: 1px solid #dfdfdf; color: #000; display: block; float: right; font-weight: bold; margin-top: -3px; padding: 3px 5px; -moz-border-radius: 5px; }
             .plugins .second td, .plugins .second th { padding: 3px 7px 5px; }
             .align-right { text-align: right; }
+            
+            #TB_ajaxContent { background: #f9f9f9; }
+            
+            .update-popup { position: relative; height: 100%; }
+            .update-popup .title { height: 70px; }
+            .update-popup .title h2 { margin: 0 0 5px; padding-top: 10px; }
+            .update-popup .title p { margin: 0; }
+            .update-popup .release-notes { bottom: 0; height: 285px; position: absolute; width: 520px; }
+            .update-popup .release-notes h2 { font-size: 12px; margin: 0 0 5px; }
+            .update-popup .release-notes .notes { background: #fff; border: 1px solid #ddd; bottom: 0; height: 250px; overflow-x: hidden; overflow-y: scroll; padding: 5px; position: absolute; width: 508px; }
         </style>
         
         <div class="wrap">
@@ -120,7 +130,7 @@ EOF;
                
                 echo <<<EOF
                             <span class="update-message">
-                                Version $versionNumber is available. <a href="#" class="background">Update now</a>
+                                <a href="/wp-content/plugins/glimmer/confirm-install-plugin.php?plugin=$package&width=520&height=360" class="thickbox onclick" title="Plugin Update">A new version of $name is available</a>
                             </span>
 EOF;
             }

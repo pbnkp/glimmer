@@ -338,11 +338,11 @@ class Glimmer
      * Because the WP functions are not always available we will store this
      * cache on disk rather than in the WP database.
      *
-     * @access  protected
+     * @access  public
      * @static
      * @return  array or false
      **/
-    protected static function readPluginCache()
+    public static function readPluginCache()
     {
         // get the Glimmer root directory
         $glimmer_root = dirname(__FILE__);
