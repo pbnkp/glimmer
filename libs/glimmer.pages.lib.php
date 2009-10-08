@@ -52,7 +52,7 @@ class GlimmerPages extends Glimmer
             <h2>Glimmer</h2>
             
             <p class="align-right">
-                &nbsp;<a href="/wp-content/plugins/glimmer/check-for-updates.php" class="background">Check for updates</a>
+                &nbsp;<a href="/wp-content/plugins/glimmer/check-for-updates.php" class="background button">Check for updates</a>
             </p>
             
             <table id="all-plugins-table" class="widefat" cellspacing="0" style="margin:15px 0">
