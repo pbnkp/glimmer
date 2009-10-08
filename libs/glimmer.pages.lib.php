@@ -40,9 +40,11 @@ class GlimmerPages extends Glimmer
             .update-popup .title { height: 70px; }
             .update-popup .title h2 { margin: 0 0 5px; padding-top: 10px; }
             .update-popup .title p { margin: 0; }
-            .update-popup .release-notes { bottom: 0; height: 285px; position: absolute; width: 520px; }
+            .update-popup .release-notes { bottom: 30px; height: 255px; position: absolute; width: 520px; }
             .update-popup .release-notes h2 { font-size: 12px; margin: 0 0 5px; }
-            .update-popup .release-notes .notes { background: #fff; border: 1px solid #ddd; bottom: 0; height: 250px; overflow-x: hidden; overflow-y: scroll; padding: 5px; position: absolute; width: 508px; }
+            .update-popup .release-notes .notes { background: #fff; border: 1px solid #ddd; bottom: 0; height: 220px; overflow-x: hidden; overflow-y: scroll; padding: 5px; position: absolute; width: 508px; }
+            .update-popup .buttons { bottom: -5px; height: 20px; position: absolute; text-align: right; width: 520px; }
+            .update-popup .buttons a.button {  }
         </style>
         
         <div class="wrap">

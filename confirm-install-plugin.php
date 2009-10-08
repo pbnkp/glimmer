@@ -16,7 +16,7 @@ $details = Glimmer::loadPlugins();
 $spec = Glimmer::parseSpecfile($pluginDir . '/' . str_replace('.php', '.glimmer', $plugin));
 
 // and merge these together for ease of access
-$plugin = array_merge($details[$plugin], $spec);
+$plugin = array_merge($details[$plugin], $spec, array('package'=>$plugin));
 
 $pluginUpdate = Glimmer::readPluginCache();
 $pluginUpdate = $pluginUpdate[$plugin['Name']];
@@ -37,5 +37,9 @@ $pluginUpdate = $pluginUpdate[$plugin['Name']];
             <?php echo $pluginUpdate['description']; ?>
             
         </div>
+    </div>
+    
+    <div class="buttons">
+        <a href="/wp-content/plugins/glimmer/install-plugin.php?plugin=<?php echo $plugin['package']; ?>" class="button background">Install Update</a>
     </div>
 </div>
