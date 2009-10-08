@@ -7,7 +7,7 @@
  * @author      Matt Kirman <mattkirman@redflex.co.uk>
  * @copyright   2009 Matt Kirman, Redflex LLP
  * @license     http://github.com/mattkirman/glimmer/blob/master/LICENCE
- * @version     0.0.0
+ * @version     0.1.0-dev
  * @link        http://glimmer.redflex.co.uk/
  */
 
@@ -221,19 +221,42 @@ class Glimmer
         // first we need to get all plugins
         $plugins = self::loadPlugins();
         
+        // and get the Glimmer plugin cache
+        $pluginCache = self::readPluginCache();
+        
+        echo '<pre>', print_r($pluginCache, true), '</pre>';
+        
         foreach ($plugins as $plugin) {
             if ($plugin['_Glimmer'] == true && $plugin['AppcastURI'] != null) {
-                // right, this plugin is Glimmer capable so read it's Appcast
+                // right, this plugin is Glimmer capable so try to read it's Appcast
                 $appcast = self::readAppcast($plugin['AppcastURI']);
                 
+                $newestVersion = $plugin['Version'];
+                unset($pluginCache[$plugin['Name']]);
+                
                 foreach ($appcast->channel->item as $item) {
-                    /*
-                        TODO Add version checking logic
-                    */
+                    $glimmer = $item->enclosure->attributes('http://glimmer.redflex.co.uk/xml-namespaces/glimmer');
+                    $enclosure = $item->enclosure->attributes();
+                    
+                    // if our version is newer than the appcast version we can safely ignore the update
+                    if (version_compare($newestVersion, $glimmer->version, '>=')) { continue; }
+                    
+                    $pluginCache[$plugin['Name']] = array(
+                        'title'         =>  (string) $item->title,
+                        'pubDate'       =>  (string) $item->pubDate,
+                        'description'   =>  (string) $item->description,
+                        'downloadURL'   =>  (string) $enclosure->url,
+                        'version'       =>  (string) $glimmer->version,
+                        'signature'     =>  (string) $glimmer->signature,
+                     );
+                     
+                     $newestVersion = $glimmer->version;
                 }
             }
         }
         
+        // and update the plugin cache
+        self::updatePluginCache($pluginCache);
         
     }
     
@@ -305,6 +328,73 @@ class Glimmer
         
         return array('status' => 'ok');
         
+    }
+    
+    
+    
+    /**
+     * Because the WP functions are not always available we will store this
+     * cache on disk rather than in the WP database.
+     *
+     * @access  protected
+     * @static
+     * @return  array or false
+     **/
+    protected static function readPluginCache()
+    {
+        // get the Glimmer root directory
+        $glimmer_root = dirname(__FILE__);
+        $glimmer_root = dirname($glimmer_root.'../');
+        
+        if (!file_exists($glimmer_root.'/__cache')) { self::createPluginCache(); return false; }
+        
+        return unserialize(file_get_contents($glimmer_root.'/__cache'));
+    }
+    
+    
+    
+    /**
+     * Updates the cache on disk. Currently rewrites the entire file _without_
+     * preserving data.
+     *
+     * @access  protected
+     * @static
+     * @param   mixed   $data   The items to cache
+     * @return  int or false
+     **/
+    protected function updatePluginCache($data)
+    {
+        // get the Glimmer root directory
+        $glimmer_root = dirname(__FILE__);
+        $glimmer_root = dirname($glimmer_root.'../');
+        
+        if (!file_exists($glimmer_root.'/__cache')) { self::createPluginCache(); }
+        
+        return file_put_contents($glimmer_root.'/__cache', serialize($data));
+    }
+    
+    
+    
+    /**
+     * Creates the plugin cache file, the cache must then be updated with
+     * Glimmer::updatePluginCache()
+     *
+     * @access  protected
+     * @static
+     * @return  bool
+     **/
+    protected static function createPluginCache()
+    {
+        // get the Glimmer root directory
+        $glimmer_root = dirname(__FILE__);
+        $glimmer_root = dirname($glimmer_root.'../');
+        
+        if (file_exists($glimmer_root.'/__cache')) { return false; }
+        
+        $fh = fopen($glimmer_root.'/__cache', 'w');
+        fclose($fh);
+        
+        return true;
     }
     
     

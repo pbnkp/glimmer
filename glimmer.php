@@ -3,7 +3,7 @@
 Plugin Name: Glimmer
 Plugin URI: http://glimmer.redflex.co.uk/
 Description: The next-generation plugin manager for WordPress.
-Version: 0.0.0
+Version: 0.1.0-dev
 Author: Matt Kirman
 Author URI: http://mattkirman.com/
 */

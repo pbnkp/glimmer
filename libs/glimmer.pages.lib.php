@@ -1,17 +1,5 @@
 <?php
 /**
- * Glimmer
- * The next-generation plugin manager for WordPress.
- * 
- * @package     Glimmer
- * @author      Matt Kirman <mattkirman@redflex.co.uk>
- * @copyright   2009 Matt Kirman, Redflex LLP
- * @license     http://github.com/mattkirman/glimmer/blob/master/LICENCE
- * @version     0.0.0
- * @link        http://glimmer.redflex.co.uk/
- */
-
-/**
  * Handles Glimmer page content.
  * 
  * @package     Glimmer
@@ -36,6 +24,7 @@ class GlimmerPages extends Glimmer
     public static function main()
     {
         Glimmer::loadPlugins();
+        $pluginCache = Glimmer::readPluginCache();
         
         echo <<<EOF
 <script type="text/javascript" src="/wp-content/plugins/glimmer/js/main.js"></script>
@@ -124,10 +113,19 @@ EOF;
                         </td>
                         <td class="desc controls">
                             <a href="/wp-content/plugins/glimmer/plugin-info.php?plugin=$package&TB_iframe=true&width=670&height=460" class="thickbox onclick" title="$name">Plugin Info</a>
-                            
+EOF;
+            
+           if (array_key_exists($data['Name'], $pluginCache)) { 
+               $versionNumber = $pluginCache[$data['Name']]['version'];
+               
+                echo <<<EOF
                             <span class="update-message">
-                                Version *** is available. <a href="#" class="background">Update now</a>
+                                Version $versionNumber is available. <a href="#" class="background">Update now</a>
                             </span>
+EOF;
+            }
+            
+            echo <<<EOF
                         </td>
                     </tr>
 EOF;
