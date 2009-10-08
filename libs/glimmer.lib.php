@@ -92,8 +92,10 @@ class Glimmer
      **/
     public static function adminMenu()
     {
-        $glimmerCount = '<span class="update-plugins"><span class="plugin-count">***</span></span>';
-        $glimmerCount = null; # set $glimmerCount to null until we've added the method to check for plugins that need updating
+        $pluginUpdateCache = self::readPluginCache();
+        $glimmerCount = (count($pluginUpdateCache) == 0 || empty($pluginUpdateCache)) ?
+            null :
+            '<span class="update-plugins 1"><span class="plugin-count">'.number_format(count($pluginUpdateCache)).'</span></span>';
         
         wp_enqueue_script( 'thickbox' );
         wp_enqueue_style( 'thickbox' );
