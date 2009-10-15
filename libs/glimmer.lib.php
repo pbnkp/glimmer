@@ -92,7 +92,6 @@ class Glimmer
      **/
     public static function adminMenu()
     {
-        self::checkForUpdates();
         $pluginUpdateCache = self::readPluginCache();
         $glimmerCount = (count($pluginUpdateCache) == 0 || empty($pluginUpdateCache)) ?
             null :
@@ -117,7 +116,6 @@ class Glimmer
      **/
     public static function dashboard()
     {
-        self::checkForUpdates();
         wp_add_dashboard_widget('glimmer', 'Glimmer', 'GlimmerPages::dashboardWidget');
     }
     
