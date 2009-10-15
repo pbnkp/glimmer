@@ -49,6 +49,9 @@ class Glimmer
         
         // add cron jobs
         add_action('glimmer__check_for_updates', 'Glimmer::checkForUpdates');
+        
+        // add contextual help
+        add_filter('contextual_help', 'Glimmer::contextualHelp', 11, 2);
     }
     
     
@@ -103,6 +106,38 @@ class Glimmer
         add_menu_page('Glimmer', 'Glimmer'.$glimmerCount, 8, 'glimmer', 'GlimmerPages::main');
         add_submenu_page('glimmer', 'Glimmer', 'Manage Plugins', 8, 'glimmer', 'GlimmerPages::main');
         //add_submenu_page('glimmer', 'Settings &lsaquo; Glimmer', 'Settings', 8, 'glimmer/settings', 'GlimmerPages::settings');
+    }
+    
+    
+    
+    /**
+     * Hook to add our own custom contextual help to the plugin page
+     *
+     * @access  public
+     * @static
+     * @return  string
+     **/
+    public static function contextualHelp($text, $screen)
+    {
+        if (strtolower($screen) == 'toplevel_page_glimmer') {
+            $text = <<<EOF
+<h5>Get help with "Glimmer"</h5>
+                <div class="metabox-prefs">
+                    <p>
+                        Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+                    </p>
+                </div>
+                
+                <h5>Other Help</h5>
+                <div class="metabox-prefs">
+                    <a href="http://glimmer.hydrogenapp.com/kb" target="_blank">Knowledge Base</a>
+                    <br />
+                    <a href="http://glimmer.hydrogenapp.com/topics" target="_blank">Support Community</a>
+                </div>
+EOF;
+        }
+        
+        return $text;
     }
     
     
